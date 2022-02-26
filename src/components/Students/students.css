@@ -1,0 +1,50 @@
+.container h2{
+    text-align: center;
+}
+
+.form{
+max-width:1000px;
+width:100%;
+margin:20px auto
+}
+
+.form input{
+width:100%;
+padding:10px;
+border:1px solid #ddd;
+margin-bottom:15px;
+box-sizing:border-box;
+}
+
+.form input[type='submit']{
+border:none;
+background:#333;
+color:#fff;
+padding:10px 30px;
+display:block;
+width:50%;
+margin:auto;
+}
+
+.table{
+max-width:1200px;
+width:100%;
+margin:20px auto;
+text-align: center;
+}
+
+.table, .table th, .table tr, .table td{
+border:1px solid #333;
+border-collapse:collapse;
+}
+.table td, .table th{
+padding:10px;
+}
+
+.table th{
+background:#ddd;
+}
+
+.table tbody:nth-of-type(2n+1) tr{
+background:#ddd;
+}

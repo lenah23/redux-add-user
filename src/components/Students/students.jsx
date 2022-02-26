@@ -1,3 +1,4 @@
+import './students.css'
 import { useRef } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import { studentTypes } from "../../store/Types";
@@ -16,11 +17,13 @@ export default function Students() {
     }) 
 
     return (<div className="container">
-        <form onSubmit={(e) => {
+        <h2>Add a student</h2>
+        <form className="form" onSubmit={(e) => {
             e.preventDefault()
             dispatch({
                 type: studentTypes.ADD,
                 payload: {
+                    id: students.length,
                     name: inputName.current.value,
                     surname: inputSurname.current.value,
                     score: inputScore.current.value,
@@ -30,31 +33,36 @@ export default function Students() {
             inputSurname.current.value = "";
             inputScore.current.value = "";
         }}>
-            <input type="text" ref={inputName}></input>
-            <input type="text" ref={inputSurname}></input>
-            <input type="number" ref={inputScore}></input>
-            <input type="submit"></input>
+            <input type="text" ref={inputName} placeholder="Enter your name"></input>
+            <input type="text" ref={inputSurname} placeholder="Enter your surname"></input>
+            <input type="number" ref={inputScore} placeholder="Enter the score"></input>
+            <input type="submit" value="Add a student"></input>
         </form>
 
         <div>
-            {
+            <table className='table'>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Score</th>
+                    <th>Delete</th>
+                </tr>
+               {
                 students.map((student) => {
-                    return <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Surname</th>
-                            <th>Score</th>
-                            <th>Delete</th>
-                        </tr>
-                        <tr>
-                            <td>{student.name}</td>
-                            <td>{student.surname}</td>
-                            <td>{student.score}</td>
-                            <td><a href="">Delete</a></td>
-                        </tr>
-                    </table>
+                    return <tr>
+                        <td>{student.name}</td>
+                        <td>{student.surname}</td>
+                        <td>{student.score}</td>
+                        <td><a href="" onClick={(id) => { 
+                            dispatch({
+                                type: "@studentTypes.DELETE",
+                                payload: id
+                                });
+                            }}>Delete</a></td>
+                    </tr>
                 })
-            }
+            } 
+        </table>    
         </div>
     </div>)
 }

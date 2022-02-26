@@ -9,25 +9,20 @@ export default (state = [], action) => {
             return [
                 ...state,
                 {
+                    id: action.payload.id,
                     name: action.payload.name,
                     surname: action.payload.surname,
                     score: action.payload.score,
                 }
-            ]
-
+            ]  
+        case studentTypes.DELETE:
+            // const studentFilter = state.filter((student, id) => id !== action.payload.id);
+            const studentFilter = state.filter((student) =>
+                student.id === action.payload.id ? null : student
+            );
+            state = studentFilter;
+            return state;
         default: return state
     }
 }
 
-
-// export default (state = initialState, action) => {
-//     switch (action.type) {
-//         case studentTypes.ADD:
-//             return {
-//                 ...state,
-//                 state: action.payload
-//             }
-        
-//         default: return state
-//     }
-// }
