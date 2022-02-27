@@ -17,7 +17,7 @@ export default (state = [], action) => {
             ]  
         case studentTypes.DELETE:
             // const studentFilter = state.filter((student, id) => id !== action.payload.id);
-            const studentFilter = state.filter((student) =>
+            const studentFilter = state.filter((student, id) =>
                 student.id === action.payload.id ? null : student
             );
             state = studentFilter;

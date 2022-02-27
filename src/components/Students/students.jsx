@@ -2,6 +2,7 @@ import './students.css'
 import { useRef } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import { studentTypes } from "../../store/Types";
+import { toast } from 'react-toastify';
 
 export default function Students() {
 
@@ -14,12 +15,15 @@ export default function Students() {
     const students = useSelector((state) => {
         console.log(state)
         return state.students
-    }) 
+    })
 
     return (<div className="container">
         <h2>Add a student</h2>
         <form className="form" onSubmit={(e) => {
             e.preventDefault()
+            if (!inputName.current.value || !inputSurname.current.value || !inputScore.current.value) {
+               return toast.warning("All fields are required!")
+            }
             dispatch({
                 type: studentTypes.ADD,
                 payload: {
@@ -29,6 +33,7 @@ export default function Students() {
                     score: inputScore.current.value,
                 }
             })
+
             inputName.current.value = "";
             inputSurname.current.value = "";
             inputScore.current.value = "";
@@ -47,22 +52,22 @@ export default function Students() {
                     <th>Score</th>
                     <th>Delete</th>
                 </tr>
-               {
-                students.map((student) => {
-                    return <tr>
-                        <td>{student.name}</td>
-                        <td>{student.surname}</td>
-                        <td>{student.score}</td>
-                        <td><a href="" onClick={(id) => { 
-                            dispatch({
-                                type: "@studentTypes.DELETE",
-                                payload: id
+                {
+                    students.map((student) => {
+                        return <tr>
+                            <td>{student.name}</td>
+                            <td>{student.surname}</td>
+                            <td>{student.score}</td>
+                            <td><a href="" onClick={(id) => {
+                                dispatch({
+                                    type: "@studentTypes.DELETE",
+                                    payload: id
                                 });
                             }}>Delete</a></td>
-                    </tr>
-                })
-            } 
-        </table>    
+                        </tr>
+                    })
+                }
+            </table>
         </div>
     </div>)
 }
