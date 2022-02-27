@@ -3,6 +3,7 @@ import { useRef } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import { studentTypes } from "../../store/Types";
 import { toast } from 'react-toastify';
+import { deletee } from '../../store/Actions/studentAction';
 
 export default function Students() {
 
@@ -13,7 +14,6 @@ export default function Students() {
     const inputScore = useRef()
 
     const students = useSelector((state) => {
-        console.log(state)
         return state.students
     })
 
@@ -22,12 +22,12 @@ export default function Students() {
         <form className="form" onSubmit={(e) => {
             e.preventDefault()
             if (!inputName.current.value || !inputSurname.current.value || !inputScore.current.value) {
-               return toast.warning("All fields are required!")
+                return toast.warning("All the fields are required!")
             }
             dispatch({
                 type: studentTypes.ADD,
                 payload: {
-                    id: students.length,
+                    id: Math.random(),
                     name: inputName.current.value,
                     surname: inputSurname.current.value,
                     score: inputScore.current.value,
@@ -37,6 +37,21 @@ export default function Students() {
             inputName.current.value = "";
             inputSurname.current.value = "";
             inputScore.current.value = "";
+
+            let student = {
+                name: inputName.current.value.trim(),
+                surname: inputSurname.current.value.trim(),
+                score: inputScore.current.value.trim(),
+            }
+
+            if (!localStorage.students) {
+                localStorage.students = [];
+            }
+
+            let studentsArray = JSON.parse(localStorage.students || '[]');
+            studentsArray.push(student);
+            localStorage.students = JSON.stringify(studentsArray);
+
         }}>
             <input type="text" ref={inputName} placeholder="Enter your name"></input>
             <input type="text" ref={inputSurname} placeholder="Enter your surname"></input>
@@ -53,16 +68,14 @@ export default function Students() {
                     <th>Delete</th>
                 </tr>
                 {
-                    students.map((student) => {
-                        return <tr>
+                    students.map((student, index) => {
+                        return <tr key={index}>
                             <td>{student.name}</td>
                             <td>{student.surname}</td>
                             <td>{student.score}</td>
-                            <td><a href="" onClick={(id) => {
-                                dispatch({
-                                    type: "@studentTypes.DELETE",
-                                    payload: id
-                                });
+                            <td><a href="" onClick={e => {
+                                e.preventDefault()
+                                dispatch(deletee(index));
                             }}>Delete</a></td>
                         </tr>
                     })

@@ -1,8 +1,18 @@
 import { studentTypes } from "../Types"
 
-export const add = (payload) => {
+const add = (payload) => {
     return {
         type: studentTypes.ADD,
         payload: payload
     }
 }
+function deletee(payload) {
+    console.log(payload);
+
+    return {
+        type: studentTypes.DELETE,
+        payload: payload
+    }
+}
+
+export { add, deletee }
